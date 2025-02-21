@@ -1,4 +1,4 @@
-package qual1teleop;//package org.firstinspires.ftc.teamcode.qual1archive.qual1teleop;
+package teleop;//package org.firstinspires.ftc.teamcode.qual1archive.qual1teleop;
 //
 //import com.acmerobotics.dashboard.FtcDashboard;
 //import com.acmerobotics.dashboard.config.Config;
