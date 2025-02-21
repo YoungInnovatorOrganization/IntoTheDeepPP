@@ -1,0 +1,56 @@
+        if(gamepad2.left_bumper){
+            extender.setPosition(extender.getPosition() + 0.0005);
+        }
+
+        if(gamepad2.right_bumper){
+            extender.setPosition(extender.getPosition() - 0.0005);
+        }
+
+        if(!hslider.isBusy()){
+            hslider.setPower(0.0);
+        }
+
+        if(gamepad2.y){
+            hslider.setPower(1);
+            hslider.setTargetPosition(hslider.getCurrentPosition() + 50);
+            hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if(gamepad2.a){
+            hslider.setPower(1);
+            hslider.setTargetPosition(hslider.getCurrentPosition() - 50);
+            hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        if(gamepad2.dpad_right){
+            slider.setPower(1);
+            slider.setTargetPosition(slider.getCurrentPosition() + 50);
+            slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if(gamepad2.dpad_left){
+            slider.setPower(1);
+            slider.setTargetPosition(slider.getCurrentPosition() - 50);
+            slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        if(gamepad2.b){
+            hshortArm.setPosition(hshortArm.getPosition() + 0.0005);
+//            hslider.setPower(1);
+//            hslider.setTargetPosition(hslider.getCurrentPosition() - 50);
+//            hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if(gamepad2.x){
+            hshortArm.setPosition(hshortArm.getPosition() - 0.0005);
+//            hslider.setPower(1);
+//            hslider.setTargetPosition(hslider.getCurrentPosition() + 50);
+//            hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        //extender: 0.0 shortarm: 0.0406
+
+        if(gamepad2.dpad_up){
+            shortArm.setPosition(shortArm.getPosition() + 0.0005);
+        }
+
+        if(gamepad2.dpad_down){
+            shortArm.setPosition(shortArm.getPosition() - 0.0005);
+        }
