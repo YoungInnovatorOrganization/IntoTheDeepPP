@@ -25,9 +25,11 @@ public class main extends OpMode {
     boolean call = true;
     boolean call1 = true;
     boolean call2 = true;
+    boolean call3 = true;
     boolean LPushed = false;
     boolean RPushed = false;
     boolean hanging = false;
+    boolean extended = false;
     StateMachine stateMachine;
     private Servo claw, shortArm, extender, rotator, outClaw;
     private DcMotor frontLeft, frontRight, backLeft, backRight, slider, hslider, aslider;
@@ -73,50 +75,46 @@ public class main extends OpMode {
 //            running = false;
 //
 //        }
-        if (!hslider.isBusy()) {
-            hslider.setPower(0.0);
-        }
 
         if (gamepad2.dpad_right) {
-            slider.setPower(1);
-            slider.setTargetPosition(slider.getCurrentPosition() + 50);
-            slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hslider.setPower(1);
+            hslider.setTargetPosition(hslider.getCurrentPosition() + 50);
+            hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
+
+
         if (gamepad2.dpad_left) {
-            slider.setPower(1);
-            slider.setTargetPosition(slider.getCurrentPosition() - 50);
-            slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            hslider.setPower(1);
+            hslider.setTargetPosition(hslider.getCurrentPosition() - 50);
+            hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
 
         if (gamepad2.b) {
-            aslider.setPower(1);
-            aslider.setTargetPosition(aslider.getCurrentPosition() + 50);
-            aslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            shortArm.setPosition(shortArm.getPosition() + 0.0005);
         }
         if (gamepad2.x) {
-            aslider.setPower(1);
-            aslider.setTargetPosition(aslider.getCurrentPosition() - 50);
-            aslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
+            shortArm.setPosition(shortArm.getPosition() - 0.0005);
 
-            if (gamepad2.y) {
-                hslider.setPower(1);
-                hslider.setTargetPosition(hslider.getCurrentPosition() - 50);
-                hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if (gamepad2.a) {
-                hslider.setPower(1);
-                hslider.setTargetPosition(hslider.getCurrentPosition() + 50);
-                hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
+        }
+//
+//            if (gamepad2.y) {
+//                hslider.setPower(1);
+//                hslider.setTargetPosition(hslider.getCurrentPosition() - 10);
+//                hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            }
+//            if (gamepad2.a) {
+//                hslider.setPower(1);
+//                hslider.setTargetPosition(hslider.getCurrentPosition() + 10);
+//                hslider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            }
 
             //extender: 0.0 shortarm: 0.0406
             if (gamepad2.dpad_up) {
-                shortArm.setPosition(shortArm.getPosition() + 0.0005);
+                extender.setPosition(extender.getPosition() + 0.0005);
             }
 
             if (gamepad2.dpad_down) {
-                shortArm.setPosition(shortArm.getPosition() - 0.0005);
+                extender.setPosition(extender.getPosition() - 0.0005);
             }
 
 
@@ -140,32 +138,20 @@ public class main extends OpMode {
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
 
-
-            if (gamepad1.x) {
-                stateMachine.setState(StateMachine.LiftState.EXTEND);
-                stateMachine.runState(liftState);
-                rotator.setPosition(0.0);
-                call1 = false;
-                //extend into middle area
-
-            }
-            if (gamepad1.y) {
-                stateMachine.setState(StateMachine.LiftState.SUB);
-                stateMachine.runState(liftState);
-                //speciman hang
-
-            }
-            if (gamepad1.a) {
-                stateMachine.setState(StateMachine.LiftState.WALL);
-                stateMachine.runState(liftState);
-                //speciman pickup
-            }
+//            if (gamepad1.y) {
+//                stateMachine.setState(StateMachine.LiftState.SUB);
+//                stateMachine.runState(liftState);
+//                //speciman hang
+//
+//            }
+//            if (gamepad1.a) {
+//                stateMachine.setState(StateMachine.LiftState.WALL);
+//                stateMachine.runState(liftState);
+//                //speciman pickup
+//            }
             if (gamepad1.dpad_left) {
-                outClaw.setPosition(0.3517);
-                extender.setPosition(0.7122);
-                rotator.setPosition(0.0);
-                shortArm.setPosition(0.055);
-                claw.setPosition(CLAW_OPEN);
+                stateMachine.setState(StateMachine.LiftState.EXCHANGE);
+                stateMachine.runState(liftState);
                 //switches between claws
             }
             if (gamepad1.b) {
@@ -221,28 +207,51 @@ public class main extends OpMode {
             }
 
 
-        if (gamepad1.dpad_down) {
-            hanging = true;
-        }
-        if (hanging && !gamepad1.dpad_down) {
-            hanging = false;
-            if (call2) {
+//        if (gamepad1.dpad_down) {
+//            hanging = true;
+//        }
+//        if (hanging && !gamepad1.dpad_down) {
+//            hanging = false;
+//            if (call2) {
 //                stateMachine.setState(StateMachine.LiftState.HANGING);
 //                stateMachine.runState(liftState);
-                call2 = false;
-                return;
-            } else if (!call2) {
+//                call2 = false;
+//                return;
+//            } else if (!call2) {
 //                stateMachine.setState(StateMachine.LiftState.HANGRESET);
 //                stateMachine.runState(liftState);
-                call2 = true;
+//                call2 = true;
+//                return;
+//            }
+//        }
+
+        if (gamepad1.x) {
+            extended = true;
+        }
+        if (extended && !gamepad1.x) {
+            extended = false;
+            if (call3) {
+                stateMachine.setState(StateMachine.LiftState.EXTEND);
+                stateMachine.runState(liftState);
+                rotator.setPosition(0.0);
+                call3 = false;
+                return;
+            } else if (!call3) {
+                stateMachine.setState(StateMachine.LiftState.EXTRACT);
+                stateMachine.runState(liftState);
+                call3 = true;
                 return;
             }
         }
 
-            telemetry.addData("shortArm", shortArm.getPosition());
-            telemetry.addData("hanger", aslider.getCurrentPosition());
+            //servos
+        telemetry.addData("shortArm", shortArm.getPosition());
+            telemetry.addData("rotator", rotator.getPosition());
+            telemetry.addData("outClaw", outClaw.getPosition());
             telemetry.addData("claw", claw.getPosition());
             telemetry.addData("extender", extender.getPosition());
+            //sliders
+            telemetry.addData("hanger", aslider.getCurrentPosition());
             telemetry.addData("slider", slider.getCurrentPosition());
             telemetry.addData("hslider", hslider.getCurrentPosition());
             telemetry.update();
